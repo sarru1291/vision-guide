@@ -1,0 +1,63 @@
+
+Description: 
+
+Vision Guide - "An aid to visually impaired people". The main objective of our project is to ease the life of visually impaired by making a device which is basically a combination of IOT(Internet of Things) and Machine Learning.This can be achieved by implementing 'Object detection', 'Optical Character Recognition' and 'Currency detection' that can be helpful in day to day life of a blind.
+
+It is handheld device which is portable, fully audio based and highly scalable.
+
+Contents: 
+
+Project Directory Tree:
+    
+    sudohack/
+        imagezmq/
+            currency_images/
+            files/   
+            ocr_images/
+            client.py
+            currency_detection.py
+            frozen_east_text_detection.pb
+            imagezmq.py
+            switch.py
+            text_recognition.py
+            text_to_speech.py
+            try.py
+            utils.py
+        object_detection/
+            ...
+            ...
+            server.py
+            ...
+        sudohack.txt
+        sudohack.pptx
+
+* Root folder container two main folders needed for running the device i.e. imagezmq and object_detection. Although sudohack.txt contains the details of the project.
+* imagezmq directory contains all the executable file for providing all the functionality. 
+    * currency_images and ocr_images folder contains the output of the clicked images that need to be processed for detection.
+    Ocr images contain the images that is captured from the camera sensor that is connected to RaßsberryPi from which ocr detection has to be done.
+    * files directory contains all the training images for the currency detection model.Moreover the currency_images contain the training images that we require for the currency detection.We are doing it for 20,50,100,500 rs notes for now but it can be generalised to any no of notes of any country.
+    * client.py file sends the real time video output for processing to the server side for the object detection. Object Detection is the process of finding real-world object instances like car, bike, TV, flowers, and humans in still images or Videos. It allows for the recognition, localization, and detection of multiple objects within an image which provides us with a much better understanding of an image as a whole.
+    * currency_detection.py file is an file for the currency detection. It also uses the try.py and utils.py files containing various function and classes. To detect currency we have used the open cv library in python.First we took some sample image of the Currency notes as our training set. Then we have trained our model for these images based on the label that the image belong to the particular currency.The code structure is like mwe have a util module which contain various function that we will require like display,convert the image etc files. The main code is in the currency detection file which consist of training our model on the sample image.
+    * frozen_east_text_detection.pb is an inference graph for object detection.
+    * imagezmq.py file provides python classes for transferring real time video output to the another computer or server side.
+    * switch.py is the main file that is the entry point based on the push on and off button. According to the button pushed, it execute the particular detection.It contain four button for ocr,object detection,currency detection and one for the power on off button.
+    * text_recognition.py is the file for implementing optical character recognition. This is a classic ml problem that include idetifying the text prom the image.To implement it we have make use of pyTesseract which accepts the inputs from the camera sensor of RasberryPi and identify the text from that image.We have created a text_recognition file which uses openCv library for text identication.
+* object_detection directory acts as a server side for processing the images coming from client side and recognise the object. It contains the data set and the inference graph which is used while processing by server.py file which is the main file in this directory.
+
+    Requirements: 
+     (a)Tensorflow >=1.12.0
+     (b)OpenCv
+     (c)Python
+     (d)Cython
+     (e)Matplotlib
+     (f)Numpy
+     (g)pyTesseract
+     (h)argParse
+     (i)Raspberry Pi
+     (J)Ultrasonic Sensors
+     (K)Camera
+     (l)Jumper Wires
+     (m)Breadboard, 
+     (n)Buttons
+
+
