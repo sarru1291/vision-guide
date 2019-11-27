@@ -1,10 +1,10 @@
-Description: 
+**Description:** 
 
-Vision Guide - "An aid to visually impaired people". The main objective of our project is to ease the life of visually impaired by making a device which is basically a combination of IOT(Internet of Things) and Machine Learning.This can be achieved by implementing 'Object detection', 'Optical Character Recognition' and 'Currency detection' that can be helpful in day to day life of a blind.
+Vision Guide - "An aid to visually impaired people". The main objective of our project is to ease the life of visually impaired by making a device which is basically a combination of IOT(Internet of Things) and Machine Learning.This can be achieved by implementing 'Real time Object detection with distance', 'Optical Character Recognition' and 'Currency detection' that can be helpful in day to day life of a blind.
 
 It is handheld device which is portable, fully audio based and highly scalable.
 
-Contents: 
+**Contents:** 
 
 Project Directory Tree:
     
@@ -43,7 +43,7 @@ Project Directory Tree:
     * text_recognition.py is the file for implementing optical character recognition. This is a classic ml problem that include idetifying the text prom the image.To implement it we have make use of pyTesseract which accepts the inputs from the camera sensor of RasberryPi and identify the text from that image.We have created a text_recognition file which uses openCv library for text identication.
 * object_detection directory acts as a server side for processing the images coming from client side and recognise the object. It contains the data set and the inference graph which is used while processing by server.py file which is the main file in this directory.
 
-    Requirements: 
+**Requirements:**
      (a)Tensorflow >=1.12.0
      (b)OpenCv
      (c)Python
