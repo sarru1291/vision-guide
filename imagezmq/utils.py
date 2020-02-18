@@ -1,3 +1,11 @@
+#!usr/bin/env python
+# @Date:	2017-03-22
+
+# UE14CS348 Digital Image Processing Mini Project
+# Indian paper currency detection
+
+# utils.py
+# contains utility functions
 
 import cv2
 import math
@@ -6,40 +14,51 @@ import matplotlib.pyplot as plt
 from pprint import pprint
 
 
+# read image as is
 def read_img(file_name):
 	img = cv2.imread(file_name)
 	return img
 
+
+# resize image with fixed aspect ratio
 def resize_img(image, scale):
 	res = cv2.resize(image, None, fx=scale, fy=scale, interpolation = cv2.INTER_AREA)
 	return res
 
 
+# convert image to grayscale
 def img_to_gray(image):
 	img_gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 	return img_gray
 
 
+# gaussian blurred grayscale
 def img_to_gaussian_gray(image):
 	img_gray = cv2.GaussianBlur(img_to_gray(image), (5, 5), 0)
 	return img_gray
 
 
+# convert image to negative
 def img_to_neg(image):
 	img_neg = 255 - image
 	return img_neg
 
 
+# binarize (threshold)
+# retval not used currently
 def binary_thresh(image, threshold):
 	retval, img_thresh = cv2.threshold(image, threshold, 255, cv2.THRESH_BINARY)
 	return img_thresh
 
 
+# NO IDEA HOW THIS WPRKS
 def adaptive_thresh(image):
 	img_thresh = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 8)
+	# cv2.adaptiveThreshold(src, maxValue, adaptiveMethod, thresholdType, blockSize, C[, dst]) → dsta
 	return img_thresh
 
 
+# sobel edge operator
 def sobel_edge(image, align):
 	img_horiz = cv2.Sobel(image, cv2.CV_8U, 0, 1)
 	img_vert = cv2.Sobel(image, cv2.CV_8U, 1, 0)
@@ -51,7 +70,9 @@ def sobel_edge(image, align):
 		print('use h or v')
 
 
+# sobel edge x + y
 def sobel_edge2(image):
+	# ksize = size of extended sobel kernel
 	grad_x = cv2.Sobel(image, cv2.CV_16S, 1, 0, ksize=3, borderType = cv2.BORDER_DEFAULT)
 	grad_y = cv2.Sobel(image, cv2.CV_16S, 0, 1, ksize=3, borderType = cv2.BORDER_DEFAULT)
 
@@ -64,7 +85,15 @@ def sobel_edge2(image):
 
 # canny edge operator
 def canny_edge(image, block_size, ksize):
+	# block_size => Neighborhood size
+	# ksize => Aperture parameter for the Sobel operator
+	
+	# 350, 350 => for smaller 500
+	# 720, 350 => Devnagari 500, Reserve bank of India
+	
 	img = cv2.Canny(image, block_size, ksize)
+	# dilate to fill up the numbers
+	#img = cv2.dilate(img, None)
 	return img
 
 
@@ -82,16 +111,19 @@ def find_contours(image):
 	return contours
 
 
+# median blur
 def median_blur(image):
 	blurred_img = cv2.medianBlur(image, 3)
 	return blurred_img
 
 
+# dialte image to close lines
 def dilate_img(image):
 	img = cv2.dilate(image, np.ones((5,5), np.uint8))
 	return img
 
 
+# erode image
 def close(image):
 	img = cv2.Canny(image, 75, 300)
 	img = cv2.dilate(img, None)
@@ -111,8 +143,10 @@ def harris_edge(image):
 	return image
 
 
+# calculate histogram
 def histogram(image):
 	hist = cv2.calcHist([image], [0], None, [256], [0, 256])
+	# cv2.calcHist(images, channels, mask, histSize, ranges[, hist[, accumulate]]) 
 	plt.plot(hist)
 	plt.show()
 
@@ -142,10 +176,13 @@ def display(window_name, image):
 	window_width = int(image.shape[1] * scale)
 	window_height = int(image.shape[0] * scale)
 
+	# reescale the resolution of the window
 	cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
 	cv2.resizeWindow(window_name, window_width, window_height)
 
+	# display image
 	cv2.imshow(window_name, image)
 
+	# wait for any key to quit the program
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()

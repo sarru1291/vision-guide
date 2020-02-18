@@ -4,12 +4,11 @@ import pytesseract
 import argparse
 from text_to_speech import text_to_speech
 import cv2
-
 def decode_predictions(scores, geometry):
+	
 	(numRows, numCols) = scores.shape[2:4]
 	rects = []
 	confidences = []
-
 	for y in range(0, numRows):
 		scoresData = scores[0, 0, y]
 		xData0 = geometry[0, 0, y]
@@ -41,7 +40,7 @@ def decode_predictions(scores, geometry):
 	return (rects, confidences)
 
 def text_recognitionn():
-	
+	output_text = 'no output'
 	image = cv2.imread('ocr_images/image1.jpg')
 	orig = image.copy()
 	(origH, origW) = image.shape[:2]
@@ -57,7 +56,7 @@ def text_recognitionn():
 		"feature_fusion/Conv_7/Sigmoid",
 		"feature_fusion/concat_3"]
 
-	print("[INFO] loading EAST text detector...")
+	print("Loading EAST text detector...")
 	net = cv2.dnn.readNet('frozen_east_text_detection.pb')
 
 	blob = cv2.dnn.blobFromImage(image, 1.0, (W, H),
@@ -93,60 +92,22 @@ def text_recognitionn():
 
 	results = sorted(results, key=lambda r:r[0][1])
 
-# loop over the results
 	for ((startX, startY, endX, endY), text) in results:
+	
 		print("OCR TEXT")
 		print("========")
 		print("{}\n".format(text))
 
 		text = "".join([c if ord(c) < 128 else "" for c in text]).strip()
 		print(text)
-		text_to_speech(text)
-		text_to_speech("text ended")
+		output_text=text
+		#text_to_speech("text ended")
+	
+	if output_text=='no output':
+		print('No text found')
+		text_to_speech("No text found")
+	else:
+		print(output_text)
+		text_to_speech(output_text)
+		
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
